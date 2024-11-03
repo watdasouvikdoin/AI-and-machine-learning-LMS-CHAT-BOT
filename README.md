@@ -37,7 +37,7 @@ To run this project, install the following dependencies:
 - Pandas
 
 
-Project Structure
+## Project Structure
 chatbot.py: Main script to run the chatbot and handle user interactions.
 data_processing.py: Script for loading and preprocessing the dataset.
 model.py: Contains the model definition and training logic using BERT.
@@ -45,21 +45,19 @@ requirements.txt: List of dependencies required to run the project.
 faqs.csv: CSV file containing the questions and answers for training the chatbot.
 
 
-Model Details
+## Model Details
 This project uses the following model:
-
 BERT Model: A transformer-based model fine-tuned for question-answering tasks, allowing the chatbot to understand and respond to user queries effectively.
 
 
 
-Training the Model
+## Training the Model
 To train the model, use the following command:
 python model.py
-
 
 This script will load the dataset, preprocess the questions and answers, and train the model. Evaluation results, including accuracy, will be printed at the end of the training.
 
 
-Results and Analysis
+## Results and Analysis
 Test Accuracy: Displayed after model evaluation.
 Performance metrics: Generated for analyzing the model's effectiveness in understanding and responding to questions.
