@@ -36,13 +36,6 @@ To run this project, install the following dependencies:
 - Transformers
 - Pandas
 
-You can install these dependencies by running:
-
-```bash
-pip install -r requirements.txt
-
-
-
 
 Project Structure
 chatbot.py: Main script to run the chatbot and handle user interactions.
