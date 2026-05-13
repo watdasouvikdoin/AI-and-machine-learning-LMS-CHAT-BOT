@@ -1,63 +1,60 @@
-# AI and machine learning LMS CHAT BOT
-A chat bot for helping students who are new to out college's website i.e. LMS
+# 🎓 Advanced LMS AI Chatbot
 
-# LMS Help Chatbot
+A state-of-the-art, Retrieval-Augmented Generation (RAG) chatbot designed to provide instant, conversational support for students navigating a college Learning Management System (LMS). This project transforms static FAQ data into a dynamic, intelligent AI assistant with a premium user interface.
 
-This repository contains the implementation of a chatbot designed to assist students with their queries related to the Learning Management System (LMS). The project utilizes natural language processing (NLP) techniques, including the BERT model, to provide accurate and context-aware responses to frequently asked questions.
+## 🚀 Key Features
 
-## Project Overview
+*   **RAG Architecture (Retrieval-Augmented Generation):** Beyond simple keyword matching. The bot retrieves relevant official context and uses a Large Language Model (LLM) to generate natural, helpful responses.
+*   **Vector Database (ChromaDB):** High-performance semantic search powered by `chromadb`. All FAQ data is stored as vectors locally for lightning-fast, persistent retrieval.
+*   **Deep Semantic Understanding:** Powered by `sentence-transformers`, the bot understands the intent behind questions (e.g., mapping "I can't log in" to "Password Reset" answers).
+*   **Premium "AI-First" UI:**
+    *   **Modern Aesthetic:** Sleek dark-themed interface with custom purple/blue gradients.
+    *   **Suggested Prompts:** Interactive pill-style buttons for common queries.
+    *   **Real-time Animations:** Modern "Thinking..." states and typewriter-style response reveals.
+*   **Secure & Scalable:** Built-in `.env` support for API keys and optimized local database storage.
 
-The LMS Help Chatbot aims to improve the user experience by offering instant assistance to students navigating the LMS. By leveraging machine learning, this chatbot can understand student inquiries and provide relevant answers, facilitating a smoother learning process.
+## 🛠️ Technical Stack
 
-## Key Features
+- **Frontend:** [Streamlit](https://streamlit.io/) (Custom CSS)
+- **Brain:** [Google Gemini 2.5 Flash](https://aistudio.google.com/) (via `google-genai` SDK)
+- **Vector Engine:** [ChromaDB](https://www.trychroma.com/)
+- **Embeddings:** `all-MiniLM-L6-v2` (Sentence Transformers)
+- **Logic:** Python, Pandas, NumPy
 
-- **Natural Language Understanding**: Utilizes BERT for effective understanding of user queries.
-- **Contextual Responses**: Provides accurate answers based on a pre-defined dataset of frequently asked questions.
-- **User-Friendly Interface**: Simple interaction model allowing students to ask questions easily.
-- **Scalability**: Easily extendable with new questions and answers to improve accuracy and coverage.
+## ⚙️ Installation & Setup
 
-## Dataset
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/watdasouvikdoin/AI-and-machine-learning-LMS-CHAT-BOT.git
+   cd AI-and-machine-learning-LMS-CHAT-BOT
+   ```
 
-The dataset used for training the model consists of a collection of questions and their corresponding answers related to the LMS. The dataset is organized in a CSV file with the following structure:
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Question,Answer 
-"How do I submit an assignment?","To submit an assignment, go to the 'Assignments' section, select the assignment, and click 'Submit'." 
+3. **Configure Environment:**
+   Create a `.env` file in the root directory and add your Google API Key:
+   ```env
+   GEMINI_API_KEY=your_google_gemini_api_key
+   ```
 
+4. **Launch the App:**
+   ```bash
+   streamlit run app.py
+   ```
 
+## 📂 File Structure
 
-Ensure that the dataset follows this structure to maintain compatibility with the chatbot's training process.
+- `app.py`: The main Streamlit web interface and UI logic.
+- `chatbot.py`: Core RAG logic, ChromaDB initialization, and LLM integration.
+- `faqs.csv`: The knowledge base containing LMS frequently asked questions.
+- `.chroma/`: Local directory where the vector database is persisted.
+- `requirements.txt`: List of necessary Python libraries.
 
-## Installation and Dependencies
+## 🤝 Contributing
+Feel free to fork this project, open issues, or submit pull requests to improve the chatbot's capabilities or UI!
 
-To run this project, install the following dependencies:
-
-- Python 3.x
-- PyTorch
-- Transformers
-- Pandas
-
-
-## Project Structure
-chatbot.py: Main script to run the chatbot and handle user interactions.
-data_processing.py: Script for loading and preprocessing the dataset.
-model.py: Contains the model definition and training logic using BERT.
-requirements.txt: List of dependencies required to run the project.
-faqs.csv: CSV file containing the questions and answers for training the chatbot.
-
-
-## Model Details
-This project uses the following model:
-BERT Model: A transformer-based model fine-tuned for question-answering tasks, allowing the chatbot to understand and respond to user queries effectively.
-
-
-
-## Training the Model
-To train the model, use the following command:
-python model.py
-
-This script will load the dataset, preprocess the questions and answers, and train the model. Evaluation results, including accuracy, will be printed at the end of the training.
-
-
-## Results and Analysis
-Test Accuracy: Displayed after model evaluation.
-Performance metrics: Generated for analyzing the model's effectiveness in understanding and responding to questions.
+---
+*Developed with ❤️ to improve the student digital experience.*
