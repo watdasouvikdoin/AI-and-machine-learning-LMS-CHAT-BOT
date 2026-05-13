@@ -1,91 +1,14 @@
-🎓 LMS AI Chatbot
-
-An AI-powered chatbot built to help students navigate their college Learning Management System (LMS) more easily.
-
-What started as a simple Jupyter Notebook project evolved into a full RAG-based AI web application with semantic search, conversational responses, and a modern UI inspired by tools like ChatGPT and Perplexity.
-
-The chatbot can answer common LMS-related questions, understand different ways students phrase queries, and generate natural responses using Google Gemini and vector-based retrieval.
-
-✨ Features
-💬 Conversational AI chatbot interface
-🧠 RAG (Retrieval-Augmented Generation) architecture
-🔍 Semantic search using Sentence Transformers
-⚡ ChromaDB vector database for fast retrieval
-🤖 Google Gemini 2.5 Flash integration
-🎨 Modern dark-themed UI with animations
-📌 Suggested prompts for quick interaction
-🧾 Context-aware responses instead of hardcoded replies
-🔐 Secure API key handling using .env
-🛠️ Tech Stack
-Frontend
-Streamlit
-Custom CSS
-AI / Backend
-Google Gemini 2.5 Flash
-Sentence Transformers (all-MiniLM-L6-v2)
-ChromaDB
-Python
-Libraries
-pandas
-numpy
-chromadb
-google-genai
-sentence-transformers
-⚙️ How It Works
-User asks a question
-The chatbot converts the query into embeddings
-ChromaDB retrieves the most relevant LMS context
-That context is sent to Gemini
-Gemini generates a conversational response
-
-This allows the chatbot to understand meaning and intent instead of relying only on keyword matching.
-
-🚀 Installation
-
-Clone the repository:
-
-git clone https://github.com/watdasouvikdoin/AI-and-machine-learning-LMS-CHAT-BOT.git
-cd AI-and-machine-learning-LMS-CHAT-BOT
-
-Install dependencies:
-
-pip install -r requirements.txt
-
-Create a .env file:
-
-GEMINI_API_KEY=your_api_key_here
-
-Run the app:
-
-streamlit run app.py
-📂 Project Structure
-├── app.py              # Streamlit frontend
-├── chatbot.py          # Core RAG pipeline
-├── faqs.csv            # LMS knowledge base
-├── requirements.txt
-├── .env
-└── .chroma/            # Local vector database
-📸 Screenshots
-
-Add your UI screenshots here once deployed.
-
-Examples:
-
-Homepage
-Chat interface
-Suggested prompts
-Semantic query responses
-🔮 Future Improvements
-PDF upload + document Q&A
-Multi-chat sessions
-Voice assistant support
-Authentication system
-Deployment on Streamlit Cloud / Render
-Admin dashboard for managing FAQs
-🤝 Contributing
-
-Contributions, suggestions, and improvements are always welcome.
-
-If you’d like to improve the chatbot or experiment with the UI/AI pipeline, feel free to fork the project and open a pull request.
-
-Built by Souvik Ghosh ✨
+# 🎓 Advanced LMS AI Chatbot A state-of-the-art, Retrieval-Augmented Generation (RAG) chatbot designed to provide instant, conversational support for students navigating a college Learning Management System (LMS). This project transforms static FAQ data into a dynamic, intelligent AI assistant with a premium user interface. ## 🚀 Key Features * **RAG Architecture (Retrieval-Augmented Generation):** Beyond simple keyword matching. The bot retrieves relevant official context and uses a Large Language Model (LLM) to generate natural, helpful responses. * **Vector Database (ChromaDB):** High-performance semantic search powered by chromadb. All FAQ data is stored as vectors locally for lightning-fast, persistent retrieval. * **Deep Semantic Understanding:** Powered by sentence-transformers, the bot understands the intent behind questions (e.g., mapping "I can't log in" to "Password Reset" answers). * **Premium "AI-First" UI:** * **Modern Aesthetic:** Sleek dark-themed interface with custom purple/blue gradients. * **Suggested Prompts:** Interactive pill-style buttons for common queries. * **Real-time Animations:** Modern "Thinking..." states and typewriter-style response reveals. * **Secure & Scalable:** Built-in .env support for API keys and optimized local database storage. ## 🛠️ Technical Stack - **Frontend:** [Streamlit](https://streamlit.io/) (Custom CSS) - **Brain:** [Google Gemini 2.5 Flash](https://aistudio.google.com/) (via google-genai SDK) - **Vector Engine:** [ChromaDB](https://www.trychroma.com/) - **Embeddings:** all-MiniLM-L6-v2 (Sentence Transformers) - **Logic:** Python, Pandas, NumPy ## ⚙️ Installation & Setup 1. **Clone the repository:**
+bash
+   git clone https://github.com/watdasouvikdoin/AI-and-machine-learning-LMS-CHAT-BOT.git
+   cd AI-and-machine-learning-LMS-CHAT-BOT
+2. **Install dependencies:**
+bash
+   pip install -r requirements.txt
+3. **Configure Environment:** Create a .env file in the root directory and add your Google API Key:
+env
+   GEMINI_API_KEY=your_google_gemini_api_key
+4. **Launch the App:**
+bash
+   streamlit run app.py
+## 📂 File Structure - app.py: The main Streamlit web interface and UI logic. - chatbot.py: Core RAG logic, ChromaDB initialization, and LLM integration. - faqs.csv: The knowledge base containing LMS frequently asked questions. - .chroma/: Local directory where the vector database is persisted. - requirements.txt: List of necessary Python libraries. ## 🤝 Contributing Feel free to fork this project, open issues, or submit pull requests to improve the chatbot's capabilities or UI! --- *Developed with ❤️ to improve the student digital experience.*
