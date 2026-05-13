@@ -1,6 +1,11 @@
 import time
+import os
 import streamlit as st
-from chatbot import load_data, load_model, compute_embeddings, get_response
+from dotenv import load_dotenv
+from chatbot import init_db, get_response
+
+# Load environment variables
+load_dotenv()
 
 # Streamlit App Configuration
 st.set_page_config(page_title="LMS Help Chatbot", page_icon="🎓", layout="centered")
@@ -163,7 +168,7 @@ def handle_prompt(prompt: str):
         time.sleep(0.6)  # brief pause so animation is visible
 
         # Compute response
-        response = get_response(prompt, model, embeddings, answers)
+        response = get_response(prompt, collection)
 
         # Typewriter reveal
         stream_response(thinking_slot, response)
@@ -176,15 +181,13 @@ st.title("🎓 LMS Help Chatbot")
 st.markdown('<p class="subtitle">Welcome! Ask me anything about the Learning Management System.</p>', unsafe_allow_html=True)
 
 # ── Load model (cached) ────────────────────────────────────────────────────────
-@st.cache_resource(show_spinner="Loading NLP model and data... This happens once per session.")
+@st.cache_resource(show_spinner="Loading RAG Database... This happens once per session.")
 def initialize_chatbot():
-    model = load_model()
-    questions, answers = load_data('faqs.csv')
-    embeddings = compute_embeddings(questions, model)
-    return model, questions, answers, embeddings
+    collection = init_db()
+    return collection
 
 try:
-    model, questions, answers, embeddings = initialize_chatbot()
+    collection = initialize_chatbot()
 except Exception as e:
     st.error(f"Error loading the chatbot components: {e}")
     st.stop()

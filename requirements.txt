@@ -3,3 +3,6 @@ sentence-transformers
 scikit-learn
 streamlit
 numpy
+chromadb
+google-genai
+python-dotenv
