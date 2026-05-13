@@ -1,50 +1,67 @@
 import pandas as pd
-import torch
-from transformers import BertTokenizer, BertModel
-from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
 
-def load_data(filepath='faqs.csv'):
-    """Load the CSV file into a DataFrame and extract questions and answers."""
-    df = pd.read_csv(filepath)
-    questions = df['Question'].tolist()
-    answers = df['Answer'].tolist()
-    return questions, answers
+# Confidence threshold — below this, the bot admits uncertainty
+SIMILARITY_THRESHOLD = 0.40
 
 def load_model():
-    """Initialize BERT tokenizer and model."""
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    model = BertModel.from_pretrained('bert-base-uncased')
-    model.eval()  # Set the model to evaluation mode
-    return tokenizer, model
+    """Load the sentence-transformers model (all-MiniLM-L6-v2).
+    Much lighter (~80MB) and faster than bert-base-uncased,
+    while producing superior semantic embeddings.
+    """
+    model = SentenceTransformer("all-MiniLM-L6-v2")
+    return model
 
-def compute_embeddings(questions, tokenizer, model):
-    """Tokenize Questions and compute embeddings."""
-    encodings = tokenizer(questions, padding=True, truncation=True, return_tensors="pt")
-    with torch.no_grad():
-        embeddings = model(encodings['input_ids'], attention_mask=encodings['attention_mask'])[0][:, 0, :].numpy()
+def load_data(filepath: str = "faqs.csv"):
+    """Load the CSV file and extract questions and answers."""
+    df = pd.read_csv(filepath)
+    questions = df["Question"].tolist()
+    answers = df["Answer"].tolist()
+    return questions, answers
+
+def compute_embeddings(questions: list, model: SentenceTransformer) -> np.ndarray:
+    """Encode all FAQ questions into dense sentence embeddings.
+    convert_to_numpy=True gives a plain ndarray ready for cosine_similarity.
+    show_progress_bar=False keeps logs clean inside Streamlit.
+    """
+    embeddings = model.encode(
+        questions,
+        convert_to_numpy=True,
+        show_progress_bar=False,
+        normalize_embeddings=True,   # L2-normalised → dot-product == cosine sim
+    )
     return embeddings
 
-def get_response(user_input, tokenizer, model, question_embeddings, answers):
-    """Get the most appropriate answer for the user input."""
-    # Tokenize user input
-    user_input_encoded = tokenizer(user_input, padding=True, truncation=True, return_tensors='pt', max_length=512)
-    
-    with torch.no_grad():
-        user_input_embedding = model(user_input_encoded['input_ids'], attention_mask=user_input_encoded['attention_mask'])[0][:, 0, :].numpy()
-    
-    # Calculate similarities
-    similarities = []
-    for question_embedding in question_embeddings:
-        similarity = cosine_similarity(user_input_embedding, question_embedding.reshape(1, -1))[0][0]
-        similarities.append(similarity)
+def get_response(
+    user_input: str,
+    model: SentenceTransformer,
+    question_embeddings: np.ndarray,
+    answers: list,
+    threshold: float = SIMILARITY_THRESHOLD,
+) -> str:
+    """Find the most semantically similar FAQ and return its answer.
 
-    # Select the best match
-    best_match_index = np.argmax(similarities)
-    best_similarity = similarities[best_match_index]
-    
-    # Return corresponding answer (threshold from original notebook was 0.5)
-    if best_similarity < 0.5:
-        return "I'm sorry, I didn't understand that. Could you please rephrase your question?"
-    
-    return answers[best_match_index]
+    Because embeddings are L2-normalised, cosine similarity reduces to a
+    simple dot product — O(n) and very fast even for large FAQ sets.
+    """
+    user_embedding = model.encode(
+        [user_input],
+        convert_to_numpy=True,
+        normalize_embeddings=True,
+    )
+
+    # Shape: (1, n_questions)
+    scores = cosine_similarity(user_embedding, question_embeddings)[0]
+
+    best_idx = int(np.argmax(scores))
+    best_score = float(scores[best_idx])
+
+    if best_score < threshold:
+        return (
+            "I'm not fully sure about that. "
+            "Could you rephrase your question or try one of the suggested prompts?"
+        )
+
+    return answers[best_idx]

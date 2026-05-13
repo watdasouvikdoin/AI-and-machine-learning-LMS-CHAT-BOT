@@ -1,6 +1,5 @@
 pandas
-torch
-transformers
+sentence-transformers
 scikit-learn
 streamlit
 numpy

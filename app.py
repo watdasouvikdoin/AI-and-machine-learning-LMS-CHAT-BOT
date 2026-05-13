@@ -163,7 +163,7 @@ def handle_prompt(prompt: str):
         time.sleep(0.6)  # brief pause so animation is visible
 
         # Compute response
-        response = get_response(prompt, tokenizer, model, embeddings, answers)
+        response = get_response(prompt, model, embeddings, answers)
 
         # Typewriter reveal
         stream_response(thinking_slot, response)
@@ -178,13 +178,13 @@ st.markdown('<p class="subtitle">Welcome! Ask me anything about the Learning Man
 # ── Load model (cached) ────────────────────────────────────────────────────────
 @st.cache_resource(show_spinner="Loading NLP model and data... This happens once per session.")
 def initialize_chatbot():
-    tokenizer, model = load_model()
+    model = load_model()
     questions, answers = load_data('faqs.csv')
-    embeddings = compute_embeddings(questions, tokenizer, model)
-    return tokenizer, model, questions, answers, embeddings
+    embeddings = compute_embeddings(questions, model)
+    return model, questions, answers, embeddings
 
 try:
-    tokenizer, model, questions, answers, embeddings = initialize_chatbot()
+    model, questions, answers, embeddings = initialize_chatbot()
 except Exception as e:
     st.error(f"Error loading the chatbot components: {e}")
     st.stop()
